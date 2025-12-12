@@ -1,5 +1,5 @@
 #' ---
-#' title: "RAP-1 Ferry: Raw to Derived Transformation"
+#' title: "RAP-0 Ferry: Raw to Derived Transformation"
 #' author: "Research Team"
 #' date: "Last Updated: `r Sys.Date()`"
 #' ---
@@ -38,7 +38,7 @@ cat("\n## Ferry Configuration\n")
 
 # Input/Output paths
 input_db_path <- "./data-private/raw/edmonton_cafes.sqlite"
-output_db_path <- "./data-private/derived/rap-1-competition-intel.sqlite"
+output_db_path <- "./data-private/derived/rap-0-competition-intel.sqlite"
 
 # Ensure output directory exists
 output_dir <- dirname(output_db_path)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-RAP-1 Market Overview Analysis
+RAP-0 Market Overview Analysis
 
 Analyzes the Edmonton coffee market competitive landscape with focus on:
 - Geographic distribution (g2 family)
@@ -24,13 +24,13 @@ plt.rcParams['savefig.dpi'] = 300
 plt.rcParams['font.size'] = 10
 
 # Configuration
-DB_PATH = "./data-private/derived/rap-1-competition-intel.sqlite"
-PRINTS_FOLDER = "./analysis/rap-1/prints/"
+DB_PATH = "./data-private/derived/rap-0-competition-intel.sqlite"
+PRINTS_FOLDER = "./analysis/rap-0/prints/"
 FIG_WIDTH = 8.5
 FIG_HEIGHT = 5.5
 
 print("=" * 70)
-print("RAP-1 MARKET OVERVIEW ANALYSIS")
+print("RAP-0 MARKET OVERVIEW ANALYSIS")
 print("=" * 70)
 print(f"Edmonton Coffee Market Competitive Intelligence")
 print()

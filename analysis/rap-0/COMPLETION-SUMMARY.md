@@ -1,4 +1,4 @@
-# RAP-1 Phase 1 Completion Summary
+# RAP-0 Phase 1 Completion Summary
 
 **Project**: Square One Coffee Competition Intelligence Pipeline  
 **Completion Date**: 2025-12-12  
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-Successfully built a complete **Reproducible Analytical Pipeline (RAP-1)** for Edmonton coffee market intelligence. The system transforms raw competitive data into actionable business insights through systematic data collection, transformation, and analysis.
+Successfully built a complete **Reproducible Analytical Pipeline (RAP-0)** for Edmonton coffee market intelligence. The system transforms raw competitive data into actionable business insights through systematic data collection, transformation, and analysis.
 
 **Deliverables**: Fully operational pipeline with 15 professional visualizations, comprehensive documentation, and end-to-end reproducibility.
 
@@ -101,7 +101,7 @@ Successfully built a complete **Reproducible Analytical Pipeline (RAP-1)** for E
 
 **Analysis Documentation**:
 - `analysis-scripts/README.md`: Script usage and outputs (7.3 KB)
-- `README.md`: Master documentation for RAP-1 (11.2 KB)
+- `README.md`: Master documentation for RAP-0 (11.2 KB)
 - `COMPLETION-SUMMARY.md`: This document
 
 **Code Documentation**:
@@ -153,7 +153,7 @@ edmonton_cafes.sqlite (Raw)
     ↓
 ferry-to-derived.py (Ellis-pattern)
     ↓
-rap-1-competition-intel.sqlite (Derived)
+rap-0-competition-intel.sqlite (Derived)
     ↓
 Analysis Scripts (Python + matplotlib)
     ↓
@@ -208,17 +208,17 @@ Analysis Scripts (Python + matplotlib)
 - `validation-rules.md` (9.8 KB) - Quality rules
 
 ### Analysis Scripts (3 files)
-- `rap-1-market-overview.py` (13.1 KB) - Market analysis (9 graphs)
-- `rap-1-competitive-position.py` (13.7 KB) - Positioning analysis (6 graphs)
+- `rap-0-market-overview.py` (13.1 KB) - Market analysis (9 graphs)
+- `rap-0-competitive-position.py` (13.7 KB) - Positioning analysis (6 graphs)
 - `README.md` (7.3 KB) - Analysis documentation
 
 ### Project Documentation (2 files)
-- `README.md` (11.2 KB) - Master RAP-1 documentation
+- `README.md` (11.2 KB) - Master RAP-0 documentation
 - `COMPLETION-SUMMARY.md` (this file) - Completion summary
 
 ### Data Products
 - `edmonton_cafes.sqlite` (24 KB) - Raw database
-- `rap-1-competition-intel.sqlite` (52 KB) - Derived database
+- `rap-0-competition-intel.sqlite` (52 KB) - Derived database
 - 15 PNG visualizations (1.9 MB total)
 
 **Total**: 14 code/documentation files + 2 databases + 15 visualizations
@@ -253,7 +253,7 @@ Analysis Scripts (Python + matplotlib)
 
 ### Phase 1 Requirements ✅
 
-From `rap-1-task-assignment.md`:
+From `rap-0-task-assignment.md`:
 
 - ✅ Ferry script creates derived database in correct location
 - ✅ Data sources fully documented with access methods and limitations
@@ -323,16 +323,16 @@ From `rap-1-task-assignment.md`:
 cd /home/runner/work/square-one-coffee/square-one-coffee
 
 # Step 1: Generate test data
-python3 analysis/rap-1/data-collection/generate-synthetic-data.py
+python3 analysis/rap-0/data-collection/generate-synthetic-data.py
 
 # Step 2: Transform to derived
-python3 analysis/rap-1/data-collection/ferry-to-derived.py
+python3 analysis/rap-0/data-collection/ferry-to-derived.py
 
 # Step 3: Generate market intelligence
-python3 analysis/rap-1/analysis-scripts/rap-1-market-overview.py
-python3 analysis/rap-1/analysis-scripts/rap-1-competitive-position.py
+python3 analysis/rap-0/analysis-scripts/rap-0-market-overview.py
+python3 analysis/rap-0/analysis-scripts/rap-0-competitive-position.py
 
-# Results in: analysis/rap-1/prints/ (15 PNG visualizations)
+# Results in: analysis/rap-0/prints/ (15 PNG visualizations)
 ```
 
 ### Updating with New Data
@@ -399,7 +399,7 @@ To add new analyses:
 
 ## Conclusion
 
-Phase 1 of RAP-1 is **complete and operational**. The pipeline successfully:
+Phase 1 of RAP-0 is **complete and operational**. The pipeline successfully:
 
 ✅ Collects and organizes competitive intelligence data  
 ✅ Transforms raw data into analysis-ready format with quality assurance  

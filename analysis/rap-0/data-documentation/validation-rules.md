@@ -1,4 +1,4 @@
-# RAP-1 Data Validation Rules
+# RAP-0 Data Validation Rules
 
 **Project**: Square One Coffee Competition Intelligence  
 **Version**: 1.0.0  

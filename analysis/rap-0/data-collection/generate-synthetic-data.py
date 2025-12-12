@@ -23,13 +23,17 @@ os.makedirs("../../../data-private/raw", exist_ok=True)
 # Database path
 db_path = "../../../data-private/raw/edmonton_cafes.sqlite"
 
+# Remove existing database if it exists
+if os.path.exists(db_path):
+    os.remove(db_path)
+
 # Connect to database
 conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
 
 # Create cafes table
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS cafes (
+CREATE TABLE cafes (
     cafe_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     address TEXT,

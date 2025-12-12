@@ -1,4 +1,4 @@
-# RAP-1 Analysis Scripts
+# RAP-0 Analysis Scripts
 
 This directory contains the analysis scripts for the Edmonton Coffee Competition Intelligence pipeline.
 
@@ -8,7 +8,7 @@ These scripts transform derived data into actionable intelligence through compre
 
 ## Scripts
 
-### 1. `rap-1-market-overview.py`
+### 1. `rap-0-market-overview.py`
 
 **Purpose**: Comprehensive market analysis of Edmonton's coffee landscape
 
@@ -39,7 +39,7 @@ These scripts transform derived data into actionable intelligence through compre
 
 ---
 
-### 2. `rap-1-competitive-position.py`
+### 2. `rap-0-competitive-position.py`
 
 **Purpose**: Square One Coffee competitive positioning analysis
 
@@ -68,7 +68,7 @@ These scripts transform derived data into actionable intelligence through compre
 ## Data Flow
 
 ```
-Derived Database (rap-1-competition-intel.sqlite)
+Derived Database (rap-0-competition-intel.sqlite)
     ↓
 [Analysis Scripts] (Python with pandas, matplotlib, seaborn)
     ↓
@@ -89,13 +89,13 @@ pip install pandas numpy matplotlib seaborn
 
 ```bash
 # Market overview analysis
-python3 rap-1-market-overview.py
+python3 rap-0-market-overview.py
 
 # Competitive positioning analysis
-python3 rap-1-competitive-position.py
+python3 rap-0-competitive-position.py
 ```
 
-**Note**: Scripts expect the derived database at `./data-private/derived/rap-1-competition-intel.sqlite`. Run the ferry script first if database doesn't exist.
+**Note**: Scripts expect the derived database at `./data-private/derived/rap-0-competition-intel.sqlite`. Run the ferry script first if database doesn't exist.
 
 ## Graph Family Concept
 
@@ -136,7 +136,7 @@ All graphs adhere to project standards:
 ## Output Organization
 
 ```
-analysis/rap-1/prints/
+analysis/rap-0/prints/
 ├── g21_cafe_concentration.png       # Market overview - geographic
 ├── g22_geographic_map.png
 ├── g23_location_zones.png
@@ -206,7 +206,7 @@ analysis/rap-1/prints/
 - **EDA Style Guide**: `../../eda-1/eda-style-guide.md`
 - **Data Sources**: `../data-documentation/data-sources.md`
 - **Ferry Process**: `../data-documentation/ferry-process.md`
-- **Task Assignment**: `../rap-1-task-assignment.md`
+- **Task Assignment**: `../rap-0-task-assignment.md`
 
 ---
 

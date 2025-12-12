@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-RAP-1 Ferry: Raw to Derived Transformation (Python Implementation)
+RAP-0 Ferry: Raw to Derived Transformation (Python Implementation)
 
 This script transforms raw Edmonton cafe data into analysis-ready datasets,
 following the Ellis-pattern for data transformation.
@@ -19,7 +19,7 @@ import math
 
 # Configuration
 INPUT_DB = "./data-private/raw/edmonton_cafes.sqlite"
-OUTPUT_DB = "./data-private/derived/rap-1-competition-intel.sqlite"
+OUTPUT_DB = "./data-private/derived/rap-0-competition-intel.sqlite"
 
 # Edmonton geographic boundaries
 EDMONTON_BOUNDS = {
@@ -42,7 +42,7 @@ PRICE_RANGE = {
 }
 
 print("=" * 60)
-print("RAP-1 FERRY: Raw → Derived Transformation")
+print("RAP-0 FERRY: Raw → Derived Transformation")
 print("=" * 60)
 print(f"Start time: {datetime.now()}")
 print()

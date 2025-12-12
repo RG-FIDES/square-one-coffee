@@ -1,4 +1,4 @@
-# RAP-1 Ferry Process Documentation
+# RAP-0 Ferry Process Documentation
 
 **Project**: Square One Coffee Competition Intelligence  
 **Version**: 1.0.0  
@@ -28,7 +28,7 @@ The Ellis-pattern is a standardized data transformation approach emphasizing:
 
 ## Ferry Script: `ferry-to-derived.R`
 
-**Location**: `./analysis/rap-1/data-collection/ferry-to-derived.R`
+**Location**: `./analysis/rap-0/data-collection/ferry-to-derived.R`
 
 **Execution Context**:
 - Called by `flow.R` orchestration script
@@ -39,7 +39,7 @@ The Ellis-pattern is a standardized data transformation approach emphasizing:
 - `./data-private/raw/edmonton_cafes.sqlite` (raw cafe directory)
 
 **Outputs**:
-- `./data-private/derived/rap-1-competition-intel.sqlite` (analysis-ready database)
+- `./data-private/derived/rap-0-competition-intel.sqlite` (analysis-ready database)
 - Console logs (validation results, quality metrics)
 - Session info (for reproducibility tracking)
 
@@ -225,7 +225,7 @@ The derived database contains multiple tables optimized for analysis:
 ```r
 # Connect to derived database
 con_derived <- DBI::dbConnect(RSQLite::SQLite(), 
-                              "./data-private/derived/rap-1-competition-intel.sqlite")
+                              "./data-private/derived/rap-0-competition-intel.sqlite")
 
 # Write tables
 DBI::dbWriteTable(con_derived, "cafes_complete", ds_clean, overwrite = TRUE)
@@ -366,4 +366,4 @@ ferry_metadata <- data.frame(
 - **Ellis-pattern example**: `./manipulation/ellis-lane.R`
 - **Validation rules**: `./data-documentation/validation-rules.md`
 - **Data sources**: `./data-documentation/data-sources.md`
-- **Task assignment**: `./rap-1-task-assignment.md`
+- **Task assignment**: `./rap-0-task-assignment.md`

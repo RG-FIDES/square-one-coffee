@@ -1,4 +1,4 @@
-# RAP-1 Data Sources Documentation
+# RAP-0 Data Sources Documentation
 
 **Project**: Square One Coffee Competition Intelligence  
 **Version**: 1.0.0  
@@ -9,7 +9,7 @@
 
 ## Overview
 
-This document catalogs all data sources used in the RAP-1 Competition Intelligence pipeline. Each source is documented with access methods, update frequency, data quality notes, and known limitations.
+This document catalogs all data sources used in the RAP-0 Competition Intelligence pipeline. Each source is documented with access methods, update frequency, data quality notes, and known limitations.
 
 ---
 
@@ -158,7 +158,7 @@ Raw Database (./data-private/raw/edmonton_cafes.sqlite)
     ↓
 [Ferry Script] (./data-collection/ferry-to-derived.R)
     ↓
-Derived Database (./data-private/derived/rap-1-competition-intel.sqlite)
+Derived Database (./data-private/derived/rap-0-competition-intel.sqlite)
     ↓
 [Analysis Scripts] (./analysis-scripts/*.R)
     ↓
@@ -208,4 +208,4 @@ Reports & Visualizations
 
 Contact: @andkov (Project Lead)  
 Issue Tracker: GitHub Issues in square-one-coffee repository  
-Documentation: `./analysis/rap-1/rap-1-task-assignment.md`
+Documentation: `./analysis/rap-0/rap-0-task-assignment.md`

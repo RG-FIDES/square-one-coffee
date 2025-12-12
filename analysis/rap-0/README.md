@@ -1,4 +1,4 @@
-# RAP-1: Edmonton Coffee Competition Intelligence System
+# RAP-0: Edmonton Coffee Competition Intelligence System
 
 **Status**: Phase 1 Complete ✅  
 **Version**: 1.0.0  
@@ -8,7 +8,7 @@
 
 ## Mission
 
-Create a **Reproducible Analytical Pipeline (RAP-1)** that systematically monitors Edmonton's coffee market, collects competitive intelligence, and generates comprehensive analytical reports to support Square One Coffee's strategic decisions.
+Create a **Reproducible Analytical Pipeline (RAP-0)** that systematically monitors Edmonton's coffee market, collects competitive intelligence, and generates comprehensive analytical reports to support Square One Coffee's strategic decisions.
 
 This is a living intelligence system that transforms public data into actionable business insights.
 
@@ -19,9 +19,9 @@ This is a living intelligence system that transforms public data into actionable
 This directory contains a complete analytical pipeline:
 
 ```
-analysis/rap-1/
+analysis/rap-0/
 ├── README.md                          # This file
-├── rap-1-task-assignment.md          # Detailed project requirements
+├── rap-0-task-assignment.md          # Detailed project requirements
 │
 ├── data-collection/                   # Data acquisition & transformation
 │   ├── generate-synthetic-data.py    # Synthetic test data generator
@@ -35,8 +35,8 @@ analysis/rap-1/
 │
 ├── analysis-scripts/                  # Intelligence generation
 │   ├── README.md                    # Analysis scripts documentation
-│   ├── rap-1-market-overview.py     # Market landscape analysis (9 graphs)
-│   └── rap-1-competitive-position.py # SOC positioning analysis (6 graphs)
+│   ├── rap-0-market-overview.py     # Market landscape analysis (9 graphs)
+│   └── rap-0-competitive-position.py # SOC positioning analysis (6 graphs)
 │
 └── prints/                           # Generated visualizations
     ├── g21_cafe_concentration.png
@@ -64,14 +64,14 @@ python3 generate-synthetic-data.py
 python3 ferry-to-derived.py
 ```
 
-**Output**: `data-private/derived/rap-1-competition-intel.sqlite` (6 analysis-ready tables)
+**Output**: `data-private/derived/rap-0-competition-intel.sqlite` (6 analysis-ready tables)
 
 ### 3. Generate Market Intelligence
 
 ```bash
 cd ../analysis-scripts
-python3 rap-1-market-overview.py
-python3 rap-1-competitive-position.py
+python3 rap-0-market-overview.py
+python3 rap-0-competitive-position.py
 ```
 
 **Output**: 15 visualizations in `prints/` directory
@@ -140,9 +140,9 @@ Raw Database (./data-private/raw/edmonton_cafes.sqlite)
     ↓
 [Ferry Transformation] ferry-to-derived.py
     ↓
-Derived Database (./data-private/derived/rap-1-competition-intel.sqlite)
+Derived Database (./data-private/derived/rap-0-competition-intel.sqlite)
     ↓
-[Analysis Scripts] rap-1-market-overview.py, rap-1-competitive-position.py
+[Analysis Scripts] rap-0-market-overview.py, rap-0-competitive-position.py
     ↓
 Intelligence Products (./prints/*.png)
 ```
@@ -193,8 +193,8 @@ python3 ferry-to-derived.py
 
 # 3. Generate updated intelligence
 cd ../analysis-scripts
-python3 rap-1-market-overview.py
-python3 rap-1-competitive-position.py
+python3 rap-0-market-overview.py
+python3 rap-0-competitive-position.py
 
 # 4. Review prints/ for updated visualizations
 ```
@@ -298,12 +298,12 @@ Track changes over time:
 
 ### Analysis Scripts
 
-**`rap-1-market-overview.py`**: Market landscape intelligence
+**`rap-0-market-overview.py`**: Market landscape intelligence
 - G2: Geographic distribution (where are cafes?)
 - G3: Pricing landscape (how are competitors priced?)
 - G4: Market segmentation (what types of cafes exist?)
 
-**`rap-1-competitive-position.py`**: SOC positioning intelligence
+**`rap-0-competitive-position.py`**: SOC positioning intelligence
 - G5: Market positioning comparison (how does SOC compare?)
 - G6: Quality & reputation analysis (what's SOC's reputation?)
 
@@ -328,10 +328,10 @@ ds_rail <- tibble::tribble(
   ~fx         , ~path,
   # ... existing entries ...
   
-  # RAP-1: Competition Intelligence
-  "run_python", "analysis/rap-1/data-collection/ferry-to-derived.py",
-  "run_python", "analysis/rap-1/analysis-scripts/rap-1-market-overview.py",
-  "run_python", "analysis/rap-1/analysis-scripts/rap-1-competitive-position.py"
+  # RAP-0: Competition Intelligence
+  "run_python", "analysis/rap-0/data-collection/ferry-to-derived.py",
+  "run_python", "analysis/rap-0/analysis-scripts/rap-0-market-overview.py",
+  "run_python", "analysis/rap-0/analysis-scripts/rap-0-competitive-position.py"
 )
 ```
 
@@ -386,7 +386,7 @@ ds_rail <- tibble::tribble(
 
 **Project Lead**: @andkov  
 **Issue Tracker**: GitHub Issues  
-**Documentation**: `./rap-1-task-assignment.md` (detailed requirements)
+**Documentation**: `./rap-0-task-assignment.md` (detailed requirements)
 
 ---
 
