@@ -1,8 +1,17 @@
-# RAP-0: Edmonton Coffee Competition Intelligence System
+# RAP-0-py: Edmonton Coffee Competition Intelligence (Python Version)
 
 **Status**: Phase 1 Complete ✅  
 **Version**: 1.0.0  
 **Last Updated**: 2025-12-12  
+**Language**: Python with pandas/matplotlib
+
+---
+
+## Overview
+
+This is the **Python implementation** of the RAP-0 competition intelligence pipeline. It emphasizes Python's strengths in automation, data processing speed, and extensive library ecosystem.
+
+**Parallel Version**: For R/tidyverse implementation, see `../rap-0-R/`
 
 ---
 
@@ -19,14 +28,13 @@ This is a living intelligence system that transforms public data into actionable
 This directory contains a complete analytical pipeline:
 
 ```
-analysis/rap-0/
+analysis/rap-0-py/
 ├── README.md                          # This file
-├── rap-0-task-assignment.md          # Detailed project requirements
+├── rap-1-task-assignment.md          # Original requirements
 │
 ├── data-collection/                   # Data acquisition & transformation
-│   ├── generate-synthetic-data.py    # Synthetic test data generator
-│   ├── ferry-to-derived.py          # Python ferry script (WORKING)
-│   └── ferry-to-derived.R           # R ferry script template (future)
+│   ├── generate-synthetic-data.py    # Python data generator
+│   └── ferry-to-derived.py          # Python ferry script (operational)
 │
 ├── data-documentation/                # Data lineage & quality standards
 │   ├── data-sources.md              # Source catalog & access methods
