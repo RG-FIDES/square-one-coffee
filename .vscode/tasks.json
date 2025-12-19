@@ -157,6 +157,40 @@
       "group": "build",
       "presentation": { "echo": true, "reveal": "always", "panel": "shared" },
       "problemMatcher": []
+    },
+    {
+      "label": "Ellis Pipeline - Open Data Only",
+      "detail": "Run Ellis pipeline stages 1-6 + consolidation (skips Google Places API stage 0)",
+      "type": "process",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "Rscript \"${workspaceFolder}\\manipulation\\ellis-1-open-data.R\"; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-2-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-3-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-4-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-5-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-6-transform.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-last.R\" }"
+      ],
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "build",
+      "presentation": { "echo": true, "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Ellis Pipeline - Open Data Only(NEW)",
+      "detail": "Run Ellis pipeline stages 1-6  (skips Google Places API stage 0)",
+      "type": "process",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "Rscript \"${workspaceFolder}\\manipulation\\ellis-1-open-data.R\"; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-2-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-3-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-4-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-5-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-6-transform.R\" }" 
+      ],
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "build",
+      "presentation": { "echo": true, "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
     }
   ]
 }
