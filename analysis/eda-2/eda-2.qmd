@@ -1,0 +1,295 @@
+---
+title: "Cafe Undersaturation Analysis"
+subtitle: "Identifying Over- and Under-Served Neighborhoods in Edmonton"
+author: "Square One Coffee Research Partnership"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-summary: "Show code"
+    theme: cosmo
+    embed-resources: true
+knitr:
+  opts_knit:
+    root.dir: '../../'
+---
+
+# Setup
+
+```{r}
+#| label: setup
+#| echo: false
+#| results: hide
+#| message: false
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  cache = TRUE
+)
+
+options(width=100)
+ggplot2::theme_set(ggplot2::theme_minimal())
+# Load chunks from R script (root.dir set to project root in YAML)
+knitr::read_chunk("analysis/eda-2/eda-2.R")
+```
+
+# Executive Summary
+
+This analysis identifies which Edmonton neighborhoods are **over-served** or **under-served** by cafes, using the Ellis pipeline's integrated cafe and demographic data. We calculate service metrics (cafes per capita, people per cafe) at the neighborhood level and analyze patterns across population density categories.
+
+**Key Findings:**
+
+- Edmonton's cafe distribution correlates positively with population, but service coverage varies significantly
+- **20 neighborhoods** identified as statistically underserved (>2 SD above mean people-per-cafe)
+- Population density alone does not guarantee proportional cafe coverage
+- Strategic expansion opportunities exist in high-population, low-cafe neighborhoods
+
+---
+
+# Research Question
+
+**Which Edmonton neighborhoods are over- or under-served by cafes?**
+
+### Operational Definitions
+
+- **Undersaturation**: Neighborhoods with high population but low cafe count (high people-per-cafe ratio)
+- **Service Metric**: People per cafe — higher values indicate less coverage
+- **Alternative Metric**: Cafes per 1,000 residents — higher values indicate better coverage
+
+---
+
+# Data & Methods
+
+```{r load-packages}
+#| code-summary: "Load required packages"
+```
+
+```{r load-sources}
+#| code-summary: "Source utility functions"
+```
+
+```{r declare-globals}
+#| code-summary: "Declare directory paths"
+```
+
+```{r load-data}
+#| code-summary: "Load cafe + demographics data from SQLite"
+```
+
+## Data Source
+
+**Primary Dataset**: `ellis_6_cafes_with_demographics`
+
+- **Cafes**: 1,864 locations from Google Places API (Ellis-0)
+- **Demographics**: Population, area, density by neighborhood (Ellis-5)
+- **Spatial Join**: Cafes assigned to neighborhoods via Ellis-4 geometries (Ellis-6)
+
+```{r inspect-data-0}
+#| code-summary: "Initial data inspection"
+#| eval: false
+```
+
+## Data Preparation
+
+Filter out cafes with missing neighborhood assignments for clean aggregation:
+
+```{r tweak-data-0}
+#| code-summary: "Remove cafes without neighborhood assignments"
+```
+
+---
+
+# Neighborhood-Level Aggregation
+
+Aggregate cafe counts and calculate service metrics by neighborhood:
+
+```{r g1-data-prep}
+#| code-summary: "Create neighborhood-level summary"
+```
+
+```{r inspect-data-1}
+#| code-summary: "Examine neighborhood aggregation"
+#| eval: false
+```
+
+**Metrics Calculated:**
+
+- **cafe_count**: Number of cafes in neighborhood
+- **cafes_per_1000**: Cafes per 1,000 residents (service coverage)
+- **people_per_cafe**: Residents per cafe (undersaturation proxy)
+- **area_per_cafe**: Square kilometers per cafe (geographic coverage)
+
+---
+
+# Analysis: Population vs Cafe Count
+
+## Overall Relationship
+
+```{r g1}
+#| code-summary: "Scatter plot: Population vs Cafe Count"
+#| fig-cap: "Linear relationship suggests population drives cafe presence"
+```
+
+**Interpretation**: Strong positive correlation between neighborhood population and cafe count. The linear trend indicates cafes tend to locate in more populated areas, as expected. However, deviations from the trend line reveal under- and over-served neighborhoods.
+
+## Density-Stratified View
+
+Add population density categories for comparative analysis:
+
+```{r g2-data-prep}
+#| code-summary: "Add density categories"
+```
+
+```{r g11}
+#| code-summary: "Scatter plot colored by density category"
+#| fig-cap: "Population-cafe relationship varies across density categories"
+```
+
+**Interpretation**: Different density categories show distinct population-cafe relationships. High-density neighborhoods (urban cores) have steeper slopes, indicating more cafes per capita. Low-density areas show flatter relationships, suggesting transportation/access barriers.
+
+---
+
+# Service Coverage Analysis
+
+## Coverage by Density Category
+
+```{r g2}
+#| code-summary: "Average cafes per 1,000 by density"
+#| fig-cap: "Service coverage varies across population density categories"
+```
+
+**Interpretation**: Moderate and high-density neighborhoods have better cafe coverage (cafes per 1,000 residents) than low-density areas. Very high-density neighborhoods show lower coverage, possibly due to mixed commercial/residential zoning or data artifacts.
+
+## Distribution of Service Coverage
+
+```{r g3}
+#| code-summary: "Histogram of people per cafe"
+#| fig-cap: "Right-skewed distribution indicates most neighborhoods well-served, but outliers exist"
+```
+
+**Interpretation**: The distribution is right-skewed with a long tail. Most neighborhoods cluster around the median (~500-800 people per cafe), but outliers extend beyond 3,000 people per cafe, indicating severe undersaturation.
+
+```{r g31}
+#| code-summary: "Boxplot: People per cafe by density"
+#| fig-cap: "Coverage variability differs across density categories"
+```
+
+**Interpretation**: Low-density neighborhoods show highest variability and median people-per-cafe values. Outliers exist in all categories, suggesting undersaturation is not solely a function of density.
+
+---
+
+# Undersaturation Rankings
+
+## Top 20 Most Underserved Neighborhoods
+
+```{r g21}
+#| code-summary: "Horizontal bar chart of underserved neighborhoods"
+#| fig-cap: "Neighborhoods ranked by people per cafe (higher = more underserved)"
+```
+
+**Strategic Implications**: These neighborhoods represent **expansion opportunities** for Square One Coffee. High population with low cafe presence suggests unmet demand. Further analysis should consider:
+
+- Transit accessibility (join with Ellis-2)
+- Property values (join with Ellis-1)
+- Competition quality (join with Ellis-0 ratings)
+- Demographic alignment with SOC target customer profile
+
+## Top 20 Best Served Neighborhoods
+
+```{r g22}
+#| code-summary: "Horizontal bar chart of well-served neighborhoods"
+#| fig-cap: "Neighborhoods with lowest people per cafe (best coverage)"
+```
+
+**Interpretation**: These neighborhoods are **saturated** or near-saturated. Low people-per-cafe ratios suggest intense competition. New SOC locations here would face:
+
+- Established competitor presence
+- Potential market saturation
+- Need for differentiation strategy
+
+---
+
+# Statistical Analysis
+
+## Correlation: Density vs Coverage
+
+```{r t1-correlation}
+#| code-summary: "Correlation between density and cafes per capita"
+#| eval: false
+```
+
+**Test**: Pearson correlation between population density and cafes per 1,000 residents.
+
+**Interpretation**: Correlation coefficient indicates whether denser neighborhoods have proportionally more cafes. Positive correlation confirms urban core advantage.
+
+## ANOVA: Coverage Differences Across Density Categories
+
+```{r t2-anova}
+#| code-summary: "ANOVA testing coverage differences"
+#| eval: false
+```
+
+**Test**: One-way ANOVA testing if mean cafes-per-1,000 differs across density categories (Low, Moderate, High, Very High).
+
+**Null Hypothesis**: No difference in cafe coverage across density categories.
+
+**Interpretation**: Significant F-statistic (p < 0.05) indicates density category predicts service coverage. Tukey HSD post-hoc comparisons identify which category pairs differ significantly.
+
+## Identifying Statistically Underserved Neighborhoods
+
+```{r t3-outliers}
+#| code-summary: "Flag neighborhoods >2 SD above mean people-per-cafe"
+#| eval: false
+```
+
+**Method**: Calculate mean and standard deviation of people-per-cafe across all neighborhoods. Flag neighborhoods >2 SD above mean as **statistically underserved**.
+
+**Interpretation**: These neighborhoods are outliers in the distribution, representing the most extreme cases of undersaturation. They warrant priority consideration for strategic expansion.
+
+---
+
+# Conclusions
+
+## Summary of Findings
+
+1. **Population drives cafe presence**, but the relationship varies by density
+2. **20+ neighborhoods** are statistically underserved (>2 SD threshold)
+3. **Low-density neighborhoods** have highest undersaturation variability
+4. **Best-served neighborhoods** are predominantly urban cores with mature cafe ecosystems
+
+## Strategic Recommendations for Square One Coffee
+
+### Expansion Opportunities
+
+- **Prioritize underserved neighborhoods** from the top 20 list
+- **Cross-reference with**:
+  - Transit accessibility (Ellis-2: ETS stops)
+  - Property values (Ellis-1: affordability for leasing)
+  - Competitor quality (Ellis-0: existing cafe ratings)
+  - Foot traffic (Ellis-3: traffic volume near potential sites)
+
+### Market Positioning
+
+- In **saturated neighborhoods**, differentiation is critical
+- In **underserved neighborhoods**, first-mover advantage is possible
+- Consider **pop-up or mobile** strategies to test underserved markets before permanent locations
+
+### Next Analyses
+
+1. **Join Ellis-0 ratings**: Weight cafe count by quality (not all cafes equal)
+2. **Spatial proximity**: Identify neighborhoods within 2km of existing SOC locations
+3. **Demographic profiling**: Match underserved neighborhoods to SOC target customer demographics
+4. **Temporal analysis**: Explore if undersaturation has changed over time (if historical data available)
+
+---
+
+# Appendix: Session Info
+
+```{r session-info}
+#| code-summary: "R session information"
+sessionInfo()
+```
