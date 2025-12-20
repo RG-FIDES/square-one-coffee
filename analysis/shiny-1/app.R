@@ -31,6 +31,10 @@ metric_choices <- setNames(
   sapply(metrics, function(m) m$label)
 )
 
+# Load all cafes with categories
+all_cafes <- provision_cafe_data(db_path)
+cafe_categories <- get_cafe_categories()
+
 # Load SOC locations
 con <- dbConnect(SQLite(), db_path)
 
@@ -101,6 +105,14 @@ ui <- fluidPage(
         selected = "none"
       ),
       hr(),
+      h4("Cafe Filter"),
+      radioButtons(
+        inputId = "cafe_category",
+        label = "Show cafes by type:",
+        choices = cafe_categories,
+        selected = "All Cafes"
+      ),
+      hr(),
       h4("Square One Coffee Locations"),
       helpText(paste0("Showing ", nrow(soc_locations_sf), " operational locations (blue)")),
       helpText("1 location coming soon (orange)"),
@@ -122,6 +134,19 @@ server <- function(input, output, session) {
   # Reactive metric selection
   selected_metric <- reactive({
     metrics[[which(sapply(metrics, function(m) m$id == input$metric))]]
+  })
+  
+  # Reactive cafe filtering
+  filtered_cafes <- reactive({
+    category <- input$cafe_category
+    if (category == "None") {
+      # Return empty data frame with same structure
+      all_cafes %>% filter(FALSE)
+    } else if (category == "All Cafes") {
+      all_cafes
+    } else {
+      all_cafes %>% filter(primary_category == category)
+    }
   })
   
   # Base map with neighborhoods
@@ -246,6 +271,40 @@ server <- function(input, output, session) {
           popup = ~popup_content,
           label = ~name,
           group = "soc_coming_soon"
+        )
+    }
+  })
+  
+  # Update cafe markers when filter changes
+  observeEvent(input$cafe_category, {
+    cafes <- filtered_cafes()
+    
+    # Clear existing cafe markers
+    proxy <- leafletProxy("map") %>%
+      clearGroup("all_cafes")
+    
+    # Only add markers if there are cafes to display
+    if (nrow(cafes) > 0) {
+      proxy %>%
+        addCircleMarkers(
+          data = cafes,
+          lng = ~lng,
+          lat = ~lat,
+          radius = 3,
+          color = "#666666",
+          fillColor = "#999999",
+          fillOpacity = 0.5,
+          opacity = 0.7,
+          stroke = TRUE,
+          weight = 1,
+          popup = ~paste0(
+            "<b>", name, "</b><br/>",
+            "Category: ", primary_category, "<br/>",
+            ifelse(!is.na(rating), paste0("Rating: ", rating, " (", user_ratings_total, " reviews)<br/>"), ""),
+            ifelse(!is.na(formatted_address), formatted_address, "")
+          ),
+          label = ~name,
+          group = "all_cafes"
         )
     }
   })

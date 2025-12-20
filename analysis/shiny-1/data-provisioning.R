@@ -61,6 +61,52 @@ provision_neighborhood_metrics <- function(db_path) {
   return(neighborhoods_sf)
 }
 
+provision_cafe_data <- function(db_path) {
+  #' Load and categorize all cafes from ellis_0_cafes
+  #' 
+  #' @param db_path Path to SQLite database
+  #' @return Data frame with cafes and their primary category
+  
+  con <- dbConnect(SQLite(), db_path)
+  cafes <- dbReadTable(con, "ellis_0_cafes")
+  dbDisconnect(con)
+  
+  # Parse types field and assign primary category
+  cafes <- cafes %>%
+    mutate(
+      types_list = strsplit(types, ","),
+      primary_category = sapply(types_list, function(type_vec) {
+        types <- trimws(type_vec)
+        if ("cafe" %in% types) return("Specialty Coffee")
+        if ("bakery" %in% types) return("Bakery")
+        if ("restaurant" %in% types) return("Restaurant")
+        if ("bar" %in% types) return("Bar")
+        if ("convenience_store" %in% types || "gas_station" %in% types) return("Convenience")
+        if ("grocery_or_supermarket" %in% types || "supermarket" %in% types) return("Grocery")
+        return("Other Food")
+      })
+    ) %>%
+    select(-types_list)  # Remove temporary column
+  
+  return(cafes)
+}
+
+get_cafe_categories <- function() {
+  #' Get available cafe category filters
+  #' 
+  #' @return Character vector of cafe categories
+  
+  c("None",
+    "All Cafes",
+    "Specialty Coffee",
+    "Bakery",
+    "Restaurant",
+    "Bar",
+    "Convenience",
+    "Grocery",
+    "Other Food")
+}
+
 get_metric_definitions <- function() {
   #' Define available metrics for choropleth visualization
   #' Add new metrics here as they become available
