@@ -14,9 +14,11 @@
 ### Key Figures
 - **Founded**: May 2, 2015
 - **Founders**: Jonathon and Brandy Brozny (married couple, 6 children)
-- **Locations**: 6 active + 1 coming soon (Edmonton metro area)
+- **Locations**: 5 operational (confirmed via Google Places data) + 1 coming soon (Millwoods)
 - **Employees**: Estimated 80-120 (based on location count and hours)
 - **Related Businesses**: 3 (Anecdote Coffee Roasters, Doorstep Barista, Stone & Wheel Pizzeria)
+
+**Data Recency Note**: Location count verified against Google Places API data (last collected prior to Dec 2025). Millwoods location announced but not yet appearing in Google Maps, suggesting pre-opening status.
 
 ---
 
@@ -63,19 +65,27 @@ The name "Square 1" reflects the founders' decision to start fresh—a complete 
 
 ## Locations Portfolio
 
-### Active Locations (6)
-| Location | Address | Phone | Notes |
-|----------|---------|-------|-------|
-| **Fairway** | 15 Fairway Dr., Edmonton | (780) 989-0102 | Original location; co-located with Stone & Wheel |
-| **Windsor Park** | 11728 87 Ave NW, Edmonton | (780) 800-4377 | University area |
-| **Glenora (Westblock)** | 14055 West Block Dr., Edmonton | (780) 452-8511 | Second location (May 2020) |
-| **Sherwood Park** | 115 Tisbury St., Sherwood Park | (587) 900-0055 | Suburban market expansion |
-| **Mayfield** | 16819 111 Ave NW, Edmonton | (587) 686-7531 | West Edmonton |
-| **Millwoods** | 7319 29 Ave NW, Edmonton | Coming Soon | South Edmonton expansion |
+### Operational Locations (5)
+**Source**: Google Places API data (confirmed via ellis_0_cafes table)
+
+| Location | Address | Google Name | Rating | Reviews | Notes |
+|----------|---------|-------------|--------|---------|-------|
+| **Aspen Gardens (Fairway)** | 15 Fairway Dr NW | Square 1 Coffee - Aspen Gardens | 4.7 | 1,898 | Original location; co-located with Stone & Wheel |
+| **Windsor Park** | 11728 87 Ave NW | Square 1 Coffee - Windsor | 4.7 | 127 | University area |
+| **Glenora (Westblock)** | 14055 West Block Dr NW #140 | Square 1 Coffee - Glenora | 4.7 | 750 | Second location (May 2020) |
+| **Sherwood Park** | 115 Tisbury St #140 | Square 1 Coffee - Sherwood Park | 4.8 | 98 | Suburban market expansion |
+| **Mayfield** | 16819 111 Ave NW | Square 1 Coffee - Mayfield | 4.8 | 236 | West Edmonton |
+
+### Announced Location (1)
+| Location | Address | Status | Notes |
+|----------|---------|--------|-------|
+| **Millwoods** | 7319 29 Ave NW, Edmonton | Coming Soon | South Edmonton expansion; not yet in Google Maps (pre-opening) |
 
 ### Geographic Distribution
-- **Edmonton Core**: 4 locations (Fairway, Windsor Park, Glenora, Mayfield)
-- **Suburban**: 2 locations (Sherwood Park, Millwoods)
+- **Edmonton Core**: 4 operational locations (Aspen Gardens/Fairway, Windsor Park, Glenora, Mayfield)
+- **Suburban**: 1 operational (Sherwood Park) + 1 announced (Millwoods)
+- **Average Rating**: 4.74 across all locations (range: 4.7-4.8)
+- **Total Reviews**: 3,109 across 5 operational locations
 - **Coverage Gap Analysis**: (To be developed with demographic data)
 
 ### Operating Hours (Standard)
