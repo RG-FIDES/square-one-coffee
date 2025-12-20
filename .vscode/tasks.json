@@ -263,6 +263,23 @@
 			"isBackground": false,
 			"problemMatcher": [],
 			"group": "build"
+		},
+		{
+			"label": "Run Shiny App - Neighborhood Explorer",
+			"type": "process",
+			"command": "Rscript",
+			"args": [
+				"-e",
+				"shiny::runApp('analysis/shiny-1', port = 3838, launch.browser = TRUE)"
+			],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"problemMatcher": [],
+			"isBackground": true
 		}
 	]
 }

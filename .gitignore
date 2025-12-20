@@ -125,3 +125,14 @@ analysis/*/*/*/*.html
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/settings.json.example
+analysis/eda-2/analysis/eda-2/data-local/ds_neighborhood_categorized.rds
+analysis/eda-2/analysis/eda-2/data-local/ds_neighborhood.rds
+analysis/eda-2/analysis/eda-2/prints/g1_population_vs_cafes.png
+analysis/eda-2/analysis/eda-2/prints/g2_cafes_by_density.png
+analysis/eda-2/analysis/eda-2/prints/g3_distribution.png
+analysis/eda-2/analysis/eda-2/prints/g11_population_vs_cafes_density.png
+analysis/eda-2/analysis/eda-2/prints/g21_underserved_top20.png
+analysis/eda-2/analysis/eda-2/prints/g22_wellserved_top20.png
+analysis/eda-2/analysis/eda-2/prints/g31_boxplot_density.png
+analysis/eda-2/data-local/ds_neighborhood_categorized.rds
+analysis/eda-2/data-local/ds_neighborhood.rds
