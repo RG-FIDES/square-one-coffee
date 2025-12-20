@@ -82,4 +82,5 @@ htmltools,TRUE,TRUE,,
 tmap,TRUE,TRUE,,
 sf,TRUE,TRUE,,
 tableone,TRUE,TRUE,,
-
+shiny,TRUE,TRUE,,
+leaflet,TRUE,TRUE,,
