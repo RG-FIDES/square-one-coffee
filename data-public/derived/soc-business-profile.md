@@ -77,9 +77,9 @@ The name "Square 1" reflects the founders' decision to start fresh—a complete 
 | **Mayfield** | 16819 111 Ave NW | Square 1 Coffee - Mayfield | 4.8 | 236 | West Edmonton |
 
 ### Announced Location (1)
-| Location | Address | Status | Notes |
-|----------|---------|--------|-------|
-| **Millwoods** | 7319 29 Ave NW, Edmonton | Coming Soon | South Edmonton expansion; not yet in Google Maps (pre-opening) |
+| Location | Address | Coordinates | Status | Notes |
+|----------|---------|-------------|--------|-------|
+| **Millwoods** | 7319 29 Ave NW, Edmonton | 53.4604°N, 113.5016°W | Coming Soon | South Edmonton expansion; not yet in Google Maps (pre-opening) |
 
 ### Geographic Distribution
 - **Edmonton Core**: 4 operational locations (Aspen Gardens/Fairway, Windsor Park, Glenora, Mayfield)

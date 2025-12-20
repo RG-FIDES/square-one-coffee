@@ -1,6 +1,6 @@
 # Edmonton Neighborhood Explorer
 # Shiny app for visualizing and exploring Edmonton neighborhoods
-# Data source: ellis_4_open_data table in global-data.sqlite
+# Data source: ellis_4_open_data (neighborhoods), ellis_5_open_data (population)
 
 # ---- Load Libraries ----
 library(shiny)
@@ -10,6 +10,9 @@ library(DBI)
 library(RSQLite)
 library(dplyr)
 
+# ---- Load Data Provisioning Functions ----
+source("data-provisioning.R")
+
 # ---- Load Data ----
 # Connect to database (use path relative to project root)
 db_path <- "../../data-private/derived/global-data.sqlite"
@@ -17,10 +20,19 @@ if (!file.exists(db_path)) {
   # If running from project root
   db_path <- "./data-private/derived/global-data.sqlite"
 }
-con <- dbConnect(SQLite(), db_path)
 
-# Load neighborhood boundaries
-neighborhoods_raw <- dbReadTable(con, "ellis_4_open_data")
+# Load neighborhoods with metrics using provisioning function
+neighborhoods_sf <- provision_neighborhood_metrics(db_path)
+
+# Get metric definitions
+metrics <- get_metric_definitions()
+metric_choices <- setNames(
+  sapply(metrics, function(m) m$id),
+  sapply(metrics, function(m) m$label)
+)
+
+# Load SOC locations
+con <- dbConnect(SQLite(), db_path)
 
 # Load Square One Coffee locations
 soc_locations_raw <- dbGetQuery(con, "
@@ -32,19 +44,6 @@ soc_locations_raw <- dbGetQuery(con, "
 
 # Disconnect
 dbDisconnect(con)
-
-# Convert WKT geometry to sf object
-neighborhoods_sf <- st_as_sf(
-  neighborhoods_raw, 
-  wkt = "the_geom", 
-  crs = 4326
-)
-
-# Prepare data for dropdown (sort alphabetically by name)
-neighborhood_choices <- neighborhoods_sf %>%
-  arrange(name) %>%
-  select(name, neighbourh) %>%
-  st_drop_geometry()
 
 # Convert SOC locations to sf object
 soc_locations_sf <- st_as_sf(
@@ -65,6 +64,28 @@ soc_locations_sf <- soc_locations_sf %>%
     )
   )
 
+# Add Millwoods "coming soon" location (not yet in Google Places API)
+millwoods_location <- data.frame(
+  name = "Square 1 Coffee - Millwoods",
+  formatted_address = "7319 29 Ave NW, Edmonton, AB",
+  lat = 53.4603678,
+  lng = -113.5016049,
+  status = "Coming Soon"
+)
+
+millwoods_sf <- st_as_sf(
+  millwoods_location,
+  coords = c("lng", "lat"),
+  crs = 4326
+) %>%
+  mutate(
+    popup_content = paste0(
+      "<b>", name, "</b><br/>",
+      formatted_address, "<br/>",
+      "<span style='color: #f59e0b; font-weight: bold;'>Status: Coming Soon</span>"
+    )
+  )
+
 # ---- UI ----
 ui <- fluidPage(
   titlePanel("Edmonton Neighborhood Explorer"),
@@ -72,23 +93,20 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       width = 3,
-      selectizeInput(
-        inputId = "neighborhood",
-        label = "Select Neighborhood:",
-        choices = c("Select a neighborhood..." = "", 
-                    setNames(neighborhood_choices$name, neighborhood_choices$name)),
-        selected = "",
-        options = list(
-          placeholder = "Type to search...",
-          maxOptions = 500
-        )
+      h4("Neighborhood Coloring"),
+      selectInput(
+        inputId = "metric",
+        label = "Color neighborhoods by:",
+        choices = metric_choices,
+        selected = "none"
       ),
       hr(),
       h4("Square One Coffee Locations"),
-      helpText(paste0("Showing ", nrow(soc_locations_sf), " SOC locations (marked in blue)")),
+      helpText(paste0("Showing ", nrow(soc_locations_sf), " operational locations (blue)")),
+      helpText("1 location coming soon (orange)"),
       hr(),
-      helpText("Select a neighborhood from the dropdown to highlight it on the map."),
-      helpText("The map shows all", nrow(neighborhoods_sf), "neighborhoods in Greater Edmonton.")
+      helpText("Select a metric above to color neighborhoods."),
+      helpText("Click neighborhoods or SOC markers for details.")
     ),
     
     mainPanel(
@@ -101,71 +119,134 @@ ui <- fluidPage(
 # ---- Server ----
 server <- function(input, output, session) {
   
-  # Base map with all neighborhoods and SOC locations
+  # Reactive metric selection
+  selected_metric <- reactive({
+    metrics[[which(sapply(metrics, function(m) m$id == input$metric))]]
+  })
+  
+  # Base map with neighborhoods
   output$map <- renderLeaflet({
     leaflet(neighborhoods_sf) %>%
       addProviderTiles(providers$CartoDB.Positron) %>%
-      addPolygons(
-        fillColor = "#cccccc",
-        fillOpacity = 0.3,
-        color = "#666666",
-        weight = 1,
-        opacity = 0.7,
-        layerId = ~name,
-        label = ~name,
-        highlightOptions = highlightOptions(
-          weight = 2,
-          color = "#333333",
-          fillOpacity = 0.5,
-          bringToFront = TRUE
-        )
-      ) %>%
-      addCircleMarkers(
-        data = soc_locations_sf,
-        radius = 8,
-        color = "#2c5f8d",
-        fillColor = "#3b82f6",
-        fillOpacity = 0.9,
-        weight = 2,
-        opacity = 1,
-        popup = ~popup_content,
-        label = ~name,
-        group = "soc_locations"
-      ) %>%
       setView(lng = -113.4938, lat = 53.5461, zoom = 11)
   })
   
-  # Highlight selected neighborhood
-  observeEvent(input$neighborhood, {
-    if (input$neighborhood != "") {
-      # Get selected neighborhood geometry
-      selected_neighborhood <- neighborhoods_sf %>%
-        filter(name == input$neighborhood)
-      
-      # Update map with highlighted neighborhood
+  # Update neighborhood coloring when metric changes
+  observeEvent(input$metric, {
+    metric <- selected_metric()
+    
+    if (metric$id == "none") {
+      # Gray neighborhoods
       leafletProxy("map") %>%
-        clearGroup("highlighted") %>%
+        clearShapes() %>%
+        clearControls() %>%
         addPolygons(
-          data = selected_neighborhood,
-          fillColor = "#ff6b6b",
-          fillOpacity = 0.6,
-          color = "#c92a2a",
-          weight = 3,
-          opacity = 1,
-          group = "highlighted",
-          label = ~name
+          data = neighborhoods_sf,
+          fillColor = "#cccccc",
+          fillOpacity = 0.3,
+          color = "#666666",
+          weight = 1,
+          opacity = 0.7,
+          layerId = ~name,
+          label = ~name,
+          highlightOptions = highlightOptions(
+            weight = 2,
+            color = "#333333",
+            fillOpacity = 0.5,
+            bringToFront = FALSE
+          )
         ) %>%
-        fitBounds(
-          lng1 = st_bbox(selected_neighborhood)["xmin"],
-          lat1 = st_bbox(selected_neighborhood)["ymin"],
-          lng2 = st_bbox(selected_neighborhood)["xmax"],
-          lat2 = st_bbox(selected_neighborhood)["ymax"]
+        addCircleMarkers(
+          data = soc_locations_sf,
+          radius = 8,
+          color = "#2c5f8d",
+          fillColor = "#3b82f6",
+          fillOpacity = 0.9,
+          weight = 2,
+          opacity = 1,
+          popup = ~popup_content,
+          label = ~name,
+          group = "soc_locations"
+        ) %>%
+        addCircleMarkers(
+          data = millwoods_sf,
+          radius = 8,
+          color = "#d97706",
+          fillColor = "#f59e0b",
+          fillOpacity = 0.7,
+          weight = 2,
+          opacity = 1,
+          popup = ~popup_content,
+          label = ~name,
+          group = "soc_coming_soon"
         )
     } else {
-      # Clear highlight if no selection
+      # Choropleth coloring
+      values <- neighborhoods_sf[[metric$column]]
+      pal <- get_color_palette(values, metric$palette, metric$reverse)
+      
+      # Create popup content with metric value
+      popup_content <- paste0(
+        "<b>", neighborhoods_sf$name, "</b><br/>",
+        metric$label, ": ",
+        ifelse(
+          is.na(values),
+          "No data",
+          format(round(values, 1), big.mark = ",")
+        )
+      )
+      
       leafletProxy("map") %>%
-        clearGroup("highlighted") %>%
-        setView(lng = -113.4938, lat = 53.5461, zoom = 11)
+        clearShapes() %>%
+        clearControls() %>%
+        addPolygons(
+          data = neighborhoods_sf,
+          fillColor = ~pal(values),
+          fillOpacity = 0.7,
+          color = "#666666",
+          weight = 1,
+          opacity = 0.7,
+          layerId = ~name,
+          popup = popup_content,
+          label = ~name,
+          highlightOptions = highlightOptions(
+            weight = 2,
+            color = "#333333",
+            fillOpacity = 0.9,
+            bringToFront = FALSE
+          )
+        ) %>%
+        addLegend(
+          position = "bottomright",
+          pal = pal,
+          values = values,
+          title = metric$label,
+          opacity = 0.7
+        ) %>%
+        addCircleMarkers(
+          data = soc_locations_sf,
+          radius = 8,
+          color = "#2c5f8d",
+          fillColor = "#3b82f6",
+          fillOpacity = 0.9,
+          weight = 2,
+          opacity = 1,
+          popup = ~popup_content,
+          label = ~name,
+          group = "soc_locations"
+        ) %>%
+        addCircleMarkers(
+          data = millwoods_sf,
+          radius = 8,
+          color = "#d97706",
+          fillColor = "#f59e0b",
+          fillOpacity = 0.7,
+          weight = 2,
+          opacity = 1,
+          popup = ~popup_content,
+          label = ~name,
+          group = "soc_coming_soon"
+        )
     }
   })
 }
