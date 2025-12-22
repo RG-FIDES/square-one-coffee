@@ -2,8 +2,43 @@
 
 AI system status and technical briefings.
 
+
+
+Let's create a simple analytic report that addresss the question: Which neighborhoods are over/under-served by cafes? FOllow the style guide and examples in ./analysis/eda-1/. Create R and qmd, just like eda-1.
+```
+
+# 2025-12-22
+
+**Session Summary**: Added EDA-3 — street-level comparison of bus stops and cafes; development and validation completed locally.
+
 ---
 
+**2025-12-22**: Created `analysis/eda-3/eda-3.R` (development script) and `analysis/eda-3/eda-3.qmd` (Quarto publication). Highlights:
+
+- Data sources: bus stops CSV `data-private/derived/ellis-2-open-data/ellis-2-open-data.csv` and cafes table `ellis_6_cafes_with_demographics` in `data-private/derived/global-data.sqlite`.
+- Implemented a vectorized `extract_street()` to standardize street names from stop_name/address and avoid row-wise conditional errors.
+- Aggregated bus stops and cafes by street, produced summary statistics, and generated four publication-quality plots (g1–g4).
+- Saved intermediate artifacts in `analysis/eda-3/data-local/` (`ds_bus_stops_clean.rds`, `ds_cafes_clean.rds`, `streets_combined.rds`, `summary_stats.rds`) and figures in `analysis/eda-3/prints/`.
+- Added a VS Code task `Run EDA-3 and Render Report` to `.vscode/tasks.json` to run the script and then render the Quarto document when the script succeeds.
+
+Notes:
+
+- Fixed runtime error caused by a scalar `if()` inside `extract_street()` by using vectorized `ifelse()` logic; re-ran script successfully and verified outputs.
+- The analysis reads only from existing derived data (no upstream modifications).  
+- Installed `shiny` in the local R environment so the Shiny task can run; this is an environment change and not committed to the repository.
+
+Files produced/changed to include in next commit:
+
+- `analysis/eda-3/eda-3.R` (new)
+- `analysis/eda-3/eda-3.qmd` (new)
+- `analysis/eda-3/data-local/*.rds` (generated artifacts)
+- `analysis/eda-3/prints/*.png` (four figures)
+- `.vscode/tasks.json` (modified: added "Run EDA-3 and Render Report")
+
+Recommended follow-ups:
+
+1. Commit the above files and open a PR on `dev-oleksandkov-ellis_pipeline-eda` → `main`.
+2. Optionally add an idempotent installer `scripts/install-r-deps.R` and call it from the VS Code tasks to ensure reproducible environments.
 
 ---
 

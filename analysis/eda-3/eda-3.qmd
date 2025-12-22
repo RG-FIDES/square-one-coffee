@@ -1,0 +1,309 @@
+---
+title: "Exploratory Data Analysis 3: Transit and Cafe Street Analysis"
+subtitle: "Bus Stops and Cafes on Shared Streets"
+author: "Square One Coffee Research Team"
+format:
+  html:
+    page-layout: full
+    toc: true
+    toc-location: right
+    code-fold: show
+    theme: yeti
+    highlight-style: breeze
+    code-line-numbers: true
+    self-contained: true
+    embed-resources: true
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+# Mission
+
+This document analyzes the relationship between public transit accessibility (bus stops) and cafe locations in Edmonton. We explore whether cafes and bus stops cluster on the same streets, suggesting potential co-location benefits for transit-oriented development and business success.
+
+**Research Questions:**
+
+1.  How many streets have both bus stops and cafes?
+2.  Is there a correlation between bus stop density and cafe presence on a street?
+3.  Which streets show the highest combined transit and cafe activity?
+
+# **Definition of Terms**
+
+-   **Bus Stop**: Public transit stop location from Edmonton Transit Service (ETS) data
+-   **Street**: Primary street name extracted from addresses (e.g., "104 Street", "Jasper Avenue")
+-   **Co-location**: Presence of both bus stops and cafes on the same street
+-   **Transit Activity**: Number of bus stops serving a particular street
+
+```{r}
+#| code-summary: Reconciles working directory between execution modes
+#| echo: false
+#| results: hide
+#| message: false 
+#| warning: false
+cat("Working directory: ", getwd())
+library(knitr)
+opts_knit$set(root.dir='../../') # keep this chunk isolated  
+```
+
+```{r}
+#| label: set_options
+#| code-summary: report-wide formatting options
+#| echo: false
+#| results: hide
+#| message: false 
+cat("Working directory: ", getwd()) # turn on to test the location
+report_render_start_time <- Sys.time()
+# set options shared by all chunks
+# Default: hide code and textual results; plots will still render
+opts_chunk$set(
+  echo         = FALSE,
+  results      = 'hide',
+  message      = FALSE,
+  warning      = FALSE,
+  comment      = NA,
+  tidy         = FALSE,
+  out.width    = "960px",
+  fig.width    = 10,
+  fig.height   = 7,
+  fig.path     = 'figure-png-iso/'
+)
+echo_chunks    <- FALSE
+message_chunks <- FALSE
+options(width=100)
+ggplot2::theme_set(ggplot2::theme_bw())
+read_chunk("./analysis/eda-3/eda-3.R")
+```
+
+# Environment
+
+> Reviews the components of the working environment of the report. Non-technical readers are welcomed to skip. Come back if you need to understand the origins of custom functions, scripts, or data objects.
+
+```{r}
+#| label: load-packages
+#| code-summary: Packages used in the current report
+#| echo: true
+#| results: hide
+#| message: false
+#| code-fold: true
+```
+
+```{r}
+#| label: load-sources
+#| code-summary: Collection of custom functions used in current repository
+#| echo: true
+#| results: hide
+#| message: false
+#| code-fold: true
+```
+
+```{r}
+#| label: declare-globals
+#| code-summary: Values used throughout the report
+#| echo: true
+#| results: hide
+#| message: false
+#| code-fold: true
+```
+
+```{r}
+#| label: declare-functions
+#| code-summary: Custom functions defined for use in this report
+#| echo: true
+#| results: hide
+#| message: false
+#| code-fold: true
+```
+
+# Data
+
+This report operates with two primary data sources:
+
+1.  **Bus Stops** (`ellis-2-open-data.csv`): Edmonton Transit Service (ETS) bus stop locations
+2.  **Cafes** (`ellis_6_cafes_with_demographics`): Coffee shops with address and neighborhood data
+
+```{r}
+#| label: load-data
+#| code-summary: Load bus stop and cafe data
+#| warning: false
+#| code-fold: true
+#| cache: true
+```
+
+## Initial Inspection
+
+```{r}
+#| label: inspect-data-0
+#| code-summary: Inspect contents of bus stops and cafes
+#| code-fold: true
+#| eval: true
+#| cache: true
+#| results: hide
+```
+
+## Data Preparation
+
+We extract street names from both datasets and standardize the format for matching.
+
+```{r}
+#| label: tweak-data-0
+#| code-summary: Extract and standardize street names
+#| code-fold: true
+#| cache: true
+#| results: hide
+```
+
+```{r}
+#| label: inspect-data-1
+#| code-summary: Verify street extraction results
+#| code-fold: false
+#| eval: true
+#| cache: true
+```
+
+# Street-Level Analysis
+
+## Aggregation by Street
+
+```{r}
+#| label: g1-data-prep
+#| code-summary: Count bus stops and cafes per street
+#| code-fold: true
+#| cache: true
+```
+
+## Summary Statistics
+
+```{r}
+#| label: inspect-data-2
+#| code-summary: Overall statistics for streets with both bus stops and cafes
+#| code-fold: false
+#| eval: true
+#| cache: true
+```
+
+# Visualizations
+
+## 1. Top Streets by Combined Activity
+
+Which streets have the highest combined presence of bus stops and cafes?
+
+```{r}
+#| label: g1
+#| code-summary: Bar chart of top 20 streets
+#| code-fold: true
+#| eval: true
+#| cache: true
+#| echo: false
+#| results: hide
+#| fig.show: 'asis'
+#| fig.width: 10
+#| fig.height: 8
+```
+
+**Interpretation**: This chart identifies the most transit-accessible streets that also have cafe presence, suggesting prime locations for transit-oriented cafe businesses.
+
+## 2. Correlation Between Bus Stops and Cafes
+
+Is there a relationship between the number of bus stops and the number of cafes on a street?
+
+```{r}
+#| label: g2
+#| code-summary: Scatter plot with linear regression
+#| code-fold: true
+#| eval: true
+#| cache: true
+#| echo: false
+#| results: hide
+#| fig.show: 'asis'
+#| fig.width: 8.5
+#| fig.height: 6
+```
+
+**Interpretation**: The scatter plot and regression line reveal whether cafes tend to cluster on streets with higher transit accessibility.
+
+## 3. Street Distribution by Category
+
+How are Edmonton streets distributed across transit and cafe presence?
+
+```{r}
+#| label: g3
+#| code-summary: Category distribution bar chart
+#| code-fold: true
+#| eval: true
+#| cache: true
+#| echo: false
+#| results: hide
+#| fig.show: 'asis'
+#| fig.width: 8.5
+#| fig.height: 6
+```
+
+**Interpretation**: This shows:
+
+-   **Both**: Streets with co-located transit and cafe activity
+-   **Bus stops only**: Transit corridors without cafe presence (potential opportunity)
+-   **Cafes only**: Cafe locations with limited transit access
+
+## 4. Composition of Top Streets
+
+How do bus stops and cafes compare on the busiest streets?
+
+```{r}
+#| label: g4
+#| code-summary: Stacked bar chart of top 15 streets
+#| code-fold: true
+#| eval: true
+#| cache: true
+#| echo: false
+#| results: hide
+#| fig.show: 'asis'
+#| fig.width: 10
+#| fig.height: 8
+```
+
+**Interpretation**: This stacked view shows whether high-activity streets are dominated by bus stops, cafes, or a balanced mix.
+
+# Key Findings
+
+```{r}
+#| label: summary-stats
+#| code-summary: Generate comprehensive summary statistics
+#| code-fold: false
+#| eval: true
+#| cache: true
+```
+
+## Insights
+
+1.  **Transit-Cafe Co-location**: The analysis reveals the extent to which cafes and bus stops share street corridors in Edmonton.
+
+2.  **Accessibility Patterns**: Streets with both bus stops and cafes represent transit-accessible cafe locations, important for:
+
+    -   Customer convenience (walkability + transit)
+    -   Sustainable urban development
+    -   Location scouting for new cafe sites
+
+3.  **Opportunity Streets**: Streets with high bus stop density but few cafes may represent underserved markets with built-in foot traffic from transit users.
+
+4.  **Cafe-Only Streets**: Locations with cafes but limited transit access may rely more heavily on car traffic or residential proximity.
+
+## Strategic Implications
+
+**For Square One Coffee**:
+
+-   Prioritize locations on streets with existing bus stop infrastructure
+-   Evaluate underserved transit corridors as expansion opportunities
+-   Consider transit accessibility as a key location criterion
+-   Partner with transit authorities for commuter-focused offerings
+
+**For Urban Planning**:
+
+-   Cafes and transit stops create synergistic pedestrian environments
+-   Encourage mixed-use development along transit corridors
+-   Support small business development near transit hubs
+
+------------------------------------------------------------------------
+
+**Report rendered:** `r Sys.time()`\
+**Processing time:** `r round(difftime(Sys.time(), report_render_start_time, units = "mins"), 2)` minutes
