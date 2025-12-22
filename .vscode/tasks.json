@@ -211,52 +211,6 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Ellis Pipeline - Open Data Only",
-			"detail": "Run Ellis pipeline stages 1-6 + consolidation (skips Google Places API stage 0)",
-			"type": "process",
-			"command": "powershell",
-			"args": [
-				"-NoProfile",
-				"-ExecutionPolicy",
-				"Bypass",
-				"-Command",
-				"Rscript \"${workspaceFolder}\\manipulation\\ellis-1-open-data.R\"; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-2-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-3-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-4-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-5-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-6-transform.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-last.R\" }"
-			],
-			"options": {
-				"cwd": "${workspaceFolder}"
-			},
-			"group": "build",
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"panel": "shared"
-			},
-			"problemMatcher": []
-		},
-		{
-			"label": "Ellis Pipeline - Open Data Only(NEW)",
-			"detail": "Run Ellis pipeline stages 1-6  (skips Google Places API stage 0)",
-			"type": "process",
-			"command": "powershell",
-			"args": [
-				"-NoProfile",
-				"-ExecutionPolicy",
-				"Bypass",
-				"-Command",
-				"Rscript \"${workspaceFolder}\\manipulation\\ellis-1-open-data.R\"; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-2-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-3-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-4-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-5-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-6-transform.R\" }"
-			],
-			"options": {
-				"cwd": "${workspaceFolder}"
-			},
-			"group": "build",
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"panel": "shared"
-			},
-			"problemMatcher": []
-		},
-		{
 			"label": "Render EDA-2 Report",
 			"type": "shell",
 			"command": "quarto render analysis/eda-2/eda-2.qmd",
@@ -280,6 +234,94 @@
 			},
 			"problemMatcher": [],
 			"isBackground": true
-		}
+		},
+		{
+			"label": "Ellis Pipeline - Complete (FAST)",
+			"detail": "Run complete Ellis pipeline using Google Sheets data (ellis-0-completed.R) + stages 1-6",
+			"type": "process",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"Rscript \"${workspaceFolder}\\manipulation\\ellis-0-scan\\ellis-0-completed.R\"; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-1-open-data\\ellis-1-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-2-open-data\\ellis-2-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-3-open-data\\ellis-3-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-4-open-data\\ellis-4-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-5-open-data\\ellis-5-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-6-open-data\\ellis-6-transform.R\" }"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Ellis Pipeline - Complete (FULL)",
+			"detail": "Run complete Ellis pipeline using Google Places API scan (ellis-0-scan.py) + stages 1-6",
+			"type": "process",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-Command",
+				"python \"${workspaceFolder}\\manipulation\\ellis-0-scan\\ellis-0-scan.py\"; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-1-open-data\\ellis-1-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-2-open-data\\ellis-2-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-3-open-data\\ellis-3-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-4-open-data\\ellis-4-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-5-open-data\\ellis-5-open-data.R\" }; if ($LASTEXITCODE -eq 0) { Rscript \"${workspaceFolder}\\manipulation\\ellis-6-open-data\\ellis-6-transform.R\" }"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Ellis Combinator",
+			"detail": "Run Ellis combinator (ellis-last.R) to consolidate all Ellis pipeline outputs",
+			"type": "process",
+			"command": "Rscript",
+			"args": [
+				"manipulation/ellis-combinator/ellis-last.R"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"problemMatcher": []
+		},
+			{
+				"label": "Run EDA-3 and Render Report",
+				"detail": "Run eda-3.R then render analysis/eda-3/eda-3.qmd if script succeeds",
+				"type": "process",
+				"command": "powershell",
+				"args": [
+					"-NoProfile",
+					"-ExecutionPolicy",
+					"Bypass",
+					"-Command",
+					"Rscript \"${workspaceFolder}\\analysis\\eda-3\\eda-3.R\"; if ($LASTEXITCODE -eq 0) { quarto render analysis/eda-3/eda-3.qmd }"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"group": "build",
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"panel": "shared"
+				},
+				"problemMatcher": []
+			}
 	]
 }

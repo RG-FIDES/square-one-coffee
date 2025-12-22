@@ -136,3 +136,10 @@ analysis/eda-2/analysis/eda-2/prints/g22_wellserved_top20.png
 analysis/eda-2/analysis/eda-2/prints/g31_boxplot_density.png
 analysis/eda-2/data-local/ds_neighborhood_categorized.rds
 analysis/eda-2/data-local/ds_neighborhood.rds
+
+# ---- API KEYS --------------------------------------
+.secrets
+
+# -- Environment files --------------------------------------
+*.Renv
+manipulation/*.*env
