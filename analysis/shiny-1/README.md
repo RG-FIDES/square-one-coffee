@@ -1,6 +1,6 @@
 # Edmonton Neighborhood Explorer
 
-Interactive Shiny app for visualizing and exploring Edmonton neighborhoods.
+Interactive Shiny app for visualizing and exploring Edmonton neighborhoods and their places of interest.
 
 ## Features
 
