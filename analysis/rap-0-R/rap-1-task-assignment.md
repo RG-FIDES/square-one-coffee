@@ -13,7 +13,7 @@ Create a **Reproducible Analytical Pipeline (RAP-1)** that systematically monito
 
 ### Context
 
-Square One Coffee (SOC) operates 6+ cafe locations in Edmonton with ambitions to expand thoughtfully. To make informed decisions about operations, market positioning, and growth opportunities, SOC needs systematic, up-to-date intelligence about:
+Square One Coffee (SOC) operates 5 cafe locations in Edmonton with ambitions to expand thoughtfully. To make informed decisions about operations, market positioning, and growth opportunities, SOC needs systematic, up-to-date intelligence about:
 
 - **Competition landscape**: Who are the players, where are they, what do they offer?
 - **Market dynamics**: Pricing strategies, customer preferences, emerging trends
